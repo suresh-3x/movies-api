@@ -1,0 +1,28 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  # Node.js and Express
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    dns: 8.8.8.8
+    depends_on:
+      - db
+    volumes:
+      - .:/app/src
+
+  # PostgreSQL database
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3131
+      POSTGRES_DB: moviesdb
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
