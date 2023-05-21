@@ -2,12 +2,18 @@ import express, { Request, Response, NextFunction } from 'express';
 import { PrismaClient, Ticket } from '@prisma/client';
 import { CreateTicketRequest, UpdateTicketRequest } from './types';
 import { handleErrorResponse, validateCreateTicketRequest, validateUpdateTicketRequest } from './utils';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/openai.json'; 
 
 
 const app = express();
 const PORT: number = 3000;
 
+
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 const prisma: PrismaClient = new PrismaClient();
 
